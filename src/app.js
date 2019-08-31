@@ -31,6 +31,7 @@ store.dispatch(addExpense({
     createdAt : 20
 }));
 
+console.log("test");
 const jsx = (
     <Provider store={store}>
         <AppRouter />
