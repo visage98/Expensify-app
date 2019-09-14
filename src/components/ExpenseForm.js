@@ -3,15 +3,15 @@ import moment from 'moment';
 import { SingleDatePicker } from 'react-dates';
 
 export default class ExpenseForm extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
             description: props.expense ? props.expense.description : "",
             note: props.expense ? props.expense.note : "",
-            amount: props.expense ? (props.expense.amount/100).toString() : "",
+            amount: props.expense ? (props.expense.amount / 100).toString() : "",
             createdAt: props.expense ? moment(props.expense.createdAt) : moment(),
             calendarFocused: false,
-            error : ''
+            error: ''
         };
     }
     onDescriptionChange = (e) => {
@@ -32,39 +32,39 @@ export default class ExpenseForm extends React.Component {
             this.setState(() => ({ amount }))
         }
     }
-    onSubmit = (e)=>{
+    onSubmit = (e) => {
         e.preventDefault();
-        if(!this.state.description || !this.state.amount){
-            this.setState(()=>({error : 'Please provide description and amount.'}));
+        if (!this.state.description || !this.state.amount) {
+            this.setState(() => ({ error: 'Please provide description and amount.' }));
         } else {
-            this.setState(()=>({error : ''}));
+            this.setState(() => ({ error: '' }));
             this.props.onSubmit({
-                description : this.state.description,
-                note : this.state.note,
-                amount : parseFloat(this.state.amount, 10)*100,
-                createdAt : this.state.createdAt.valueOf()
+                description: this.state.description,
+                note: this.state.note,
+                amount: parseFloat(this.state.amount, 10) * 100,
+                createdAt: this.state.createdAt.valueOf()
             })
         }
     }
     render() {
         return (
-            <div>
-                {this.state.error.length>0 && <p>{this.state.error}</p>}
-                <form onSubmit={this.onSubmit}>
-                    <input type='text' value={this.state.description} onChange={this.onDescriptionChange} placeholder="Description" />
-                    <input type='text' value={this.state.amount} onChange={this.onAmountChange} placeholder="Amount" />
-                    <SingleDatePicker
-                        date={this.state.createdAt}
-                        onDateChange={this.onDateChange}
-                        focused={this.state.calendarFocused}
-                        onFocusChange={({ focused }) => { this.setState(() => ({ calendarFocused: focused })) }}
-                        numberOfMonths={1}
-                        isOutsideRange={() => false}
-                    />
-                    <textarea type='text' value={this.state.note} onChange={this.onNoteChange} placeholder="Note (Optional)" />
-                    <button type='submit'>Add Expense</button>
-                </form>
-            </div>
+            <form onSubmit={this.onSubmit} className="form">
+                {this.state.error.length > 0 && <p className="form__error">{this.state.error}</p>}
+                <input type='text' placeholder="Description" className="text-input" value={this.state.description} onChange={this.onDescriptionChange} placeholder="Description" />
+                <input type='text' placeholder="Amount" className="text-input" value={this.state.amount} onChange={this.onAmountChange} placeholder="Amount" />
+                <SingleDatePicker
+                    date={this.state.createdAt}
+                    onDateChange={this.onDateChange}
+                    focused={this.state.calendarFocused}
+                    onFocusChange={({ focused }) => { this.setState(() => ({ calendarFocused: focused })) }}
+                    numberOfMonths={1}
+                    isOutsideRange={() => false}
+                />
+                <textarea className="textarea" type='text' value={this.state.note} onChange={this.onNoteChange} placeholder="Note (Optional)" />
+                <div>
+                    <button className="button" type='submit'>Save Expense</button>
+                </div>
+            </form>
         )
     }
 }
