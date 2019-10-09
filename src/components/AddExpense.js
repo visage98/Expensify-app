@@ -2,6 +2,7 @@ import React from 'react';
 import ExpenseForm from './ExpenseForm';
 import { connect } from 'react-redux';
 import { startAddExpense } from '../actions/expenses';
+import ReactDOM from 'react-dom';
 
 export class AddExpensePage extends React.Component {
     onSubmit = (expense) => {
